@@ -1,0 +1,403 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18371553882"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-18371553882');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kindred | A New Future for Dog Lovers with Allergies</title>
+
+  <!-- Browser-tab title stays above. The tags below steer the Google result:
+       the description drives the grey snippet line; og:site_name + the WebSite
+       JSON-LD declare the homepage "site name" Google shows as the title link.
+       Organization JSON-LD identifies us as a company (knowledge panel, entity
+       disambiguation). The og:/twitter: tags control the social share card. -->
+  <meta name="description" content="Kindred Companion Sciences is developing a new generation of dogs that no longer produce the major dog allergen. Join our list to follow along." />
+  <link rel="canonical" href="https://www.kindredcompanion.com/" />
+
+  <meta property="og:site_name" content="Kindred Companion Sciences" />
+  <meta property="og:title" content="Kindred | A New Future for Dog Lovers with Allergies" />
+  <meta property="og:description" content="Kindred Companion Sciences is developing a new generation of dogs for allergy-sensitive households." />
+  <meta property="og:image" content="https://www.kindredcompanion.com/assets/images/hero_v2.jpg?v=2" />
+  <meta property="og:url" content="https://www.kindredcompanion.com/" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Kindred Companion Sciences",
+    "url": "https://www.kindredcompanion.com/"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Kindred Companion Sciences",
+    "legalName": "Can9 Bioengineering, Inc.",
+    "alternateName": "Kindred",
+    "url": "https://www.kindredcompanion.com",
+    "logo": "https://www.kindredcompanion.com/assets/images/Monogram_Color.svg",
+    "foundingDate": "2020",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "New York",
+      "addressRegion": "NY",
+      "addressCountry": "US"
+    },
+    "email": "press@kindredcompanion.com",
+    "sameAs": []
+  }
+  </script>
+
+  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/images/favicon.png" />
+
+  <!-- Privacy-friendly analytics by Plausible. The domain + enabled features (e.g. form-submission
+       tracking) are configured in the Plausible dashboard and baked into the pa-… script — there's no
+       data-domain here. At cutover, change the domain in Plausible settings; no code change needed
+       (re-copy this snippet only if the dashboard shows a new one). -->
+  <script async src="https://plausible.io/js/pa-W8yhJrqLI3EM8LV5JWHPv.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+
+  <!-- Cloudflare Turnstile (spam protection on the signup form). The readiness promise lets
+       script.js render a widget into each form step only once it's visible; render=explicit
+       stops auto-scanning so we control when/where each widget mounts. -->
+  <script>window.turnstileReady = new Promise((res) => { window.onTurnstileLoad = res; });</script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" async defer></script>
+
+  <!-- Fallback / accent webfonts (Season Sans loaded locally via @font-face in styles.css) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Hero is the LCP element — preload it at high priority -->
+  <link rel="preload" as="image" href="assets/images/hero_v2.jpg?v=2" fetchpriority="high" />
+
+  <link rel="stylesheet" href="styles.css?v=57" />
+
+  <!-- Set the JS flag before first paint so heading-reveal initial states apply without a flash.
+       Failsafe reveals headings/body-copy if the reveal module never runs (load error / no module
+       support) — script.js cancels this timer as soon as it starts executing, so it never fires
+       just because the user hasn't scrolled to a section yet. -->
+  <script>
+    document.documentElement.classList.add("js");
+    window.__revealFailsafeTimer = setTimeout(function () { document.documentElement.classList.add("reveal-failsafe"); }, 2500);
+  </script>
+</head>
+<body>
+
+  <!-- ============================ NAV ============================ -->
+  <header class="nav-wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__logo" href="#top" aria-label="Kindred Companion Sciences home"></a>
+      <ul class="nav__links">
+        <li><a href="#science">What we're doing</a></li>
+        <li><a href="#science">The science</a></li>
+        <li><a href="#left-out">Who this is for</a></li>
+      </ul>
+      <a class="btn btn--ghost nav__cta" href="#signup">Join the list</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============================ HERO ============================ -->
+    <section class="hero" id="top">
+      <div class="hero__bg">
+        <img src="assets/images/hero_v2.jpg?v=2" alt="A woman resting her cheek against the cream-colored dog she's embracing" fetchpriority="high" decoding="async" />
+        <div class="hero__scrim" aria-hidden="true"></div>
+      </div>
+      <h1 class="hero__headline"><span class="hero__w hero__w--1">Everyone</span><br /><em class="hero__w hero__w--2">deserves</em><br class="m-only" /> <span class="nowrap"><span class="hero__w hero__w--3">a</span> <span class="hero__w hero__w--4">dog.</span></span></h1>
+    </section>
+
+    <!-- ===================== HERO — CONTENT ===================== -->
+    <section class="intro">
+      <div class="intro__inner">
+        <img class="intro__motif" src="assets/images/hero-motif.png" alt="" width="123" height="155" loading="lazy" decoding="async" />
+        <h2 class="intro__title" data-split>A new future for <br><span class="accent-brown">dog lovers with allergies</span></h2>
+        <div class="intro__body" data-fade>
+          <p>Kindred Companion Sciences™ is developing a new generation of dogs for allergy-sensitive households.</p>
+          <p>Kindred reported, in a peer-reviewed study, the creation of gene-edited dogs that no longer produce the major dog allergen.  The patent-pending genomic alteration described in this study is investigational and has not yet been reviewed by FDA.</p>
+          <p>We're building toward a future where more people can experience life with a dog.</p>
+        </div>
+        <a class="btn btn--text" href="#signup">Join the list <span aria-hidden="true">↓</span></a>
+      </div>
+    </section>
+
+    <!-- ===================== NEWS LOGOS — TICKER ===================== -->
+    <!-- Two identical runs of the logo set scroll as one track; the keyframe
+         travels exactly one run (-50% of the track minus half a gap) so the
+         loop is seamless. The duplicate run is hidden from assistive tech. -->
+    <section class="news-ticker" aria-label="Kindred in the news">
+      <div class="news-ticker__viewport">
+        <div class="news-ticker__track">
+        <img class="news-ticker__logo logo--cbs" src="assets/images/news-logos/cbs-news.svg" alt="CBS News" width="288" height="38" decoding="async" />
+        <img class="news-ticker__logo logo--gma" src="assets/images/news-logos/good-morning-america.svg" alt="Good Morning America" width="326" height="76" decoding="async" />
+        <img class="news-ticker__logo logo--wired" src="assets/images/news-logos/wired.svg" alt="WIRED" width="301" height="60" decoding="async" />
+        <img class="news-ticker__logo logo--ap" src="assets/images/news-logos/ap.svg" alt="The Associated Press" width="103" height="120" decoding="async" />
+        <img class="news-ticker__logo logo--wapo" src="assets/images/news-logos/washington-post.svg" alt="The Washington Post" width="514" height="79" decoding="async" />
+        <img class="news-ticker__logo logo--guardian" src="assets/images/news-logos/the-guardian.svg" alt="The Guardian" width="489" height="85" decoding="async" />
+        <img class="news-ticker__logo logo--indy" src="assets/images/news-logos/independent.svg" alt="The Independent" width="600" height="98" decoding="async" />
+        <img class="news-ticker__logo logo--newsweek" src="assets/images/news-logos/newsweek.svg" alt="Newsweek" width="406" height="63" decoding="async" />
+        <img class="news-ticker__logo logo--brew" src="assets/images/news-logos/morning-brew.svg" alt="Morning Brew" width="525" height="74" decoding="async" />
+        <img class="news-ticker__logo logo--cbs" src="assets/images/news-logos/cbs-news.svg" alt="" aria-hidden="true" width="288" height="38" decoding="async" />
+        <img class="news-ticker__logo logo--gma" src="assets/images/news-logos/good-morning-america.svg" alt="" aria-hidden="true" width="326" height="76" decoding="async" />
+        <img class="news-ticker__logo logo--wired" src="assets/images/news-logos/wired.svg" alt="" aria-hidden="true" width="301" height="60" decoding="async" />
+        <img class="news-ticker__logo logo--ap" src="assets/images/news-logos/ap.svg" alt="" aria-hidden="true" width="103" height="120" decoding="async" />
+        <img class="news-ticker__logo logo--wapo" src="assets/images/news-logos/washington-post.svg" alt="" aria-hidden="true" width="514" height="79" decoding="async" />
+        <img class="news-ticker__logo logo--guardian" src="assets/images/news-logos/the-guardian.svg" alt="" aria-hidden="true" width="489" height="85" decoding="async" />
+        <img class="news-ticker__logo logo--indy" src="assets/images/news-logos/independent.svg" alt="" aria-hidden="true" width="600" height="98" decoding="async" />
+        <img class="news-ticker__logo logo--newsweek" src="assets/images/news-logos/newsweek.svg" alt="" aria-hidden="true" width="406" height="63" decoding="async" />
+        <img class="news-ticker__logo logo--brew" src="assets/images/news-logos/morning-brew.svg" alt="" aria-hidden="true" width="525" height="74" decoding="async" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STATS — THE CATCH ===================== -->
+    <section class="stats" id="catch">
+      <div class="stats__inner">
+        <h2 class="section-title" data-split>For too many people, <span class="accent-brown">loving a dog comes with a catch</span></h2>
+        <div class="stats__blocks">
+          <div class="stat">
+            <p class="stat__num">1 in 8</p>
+            <p class="stat__label">Americans are allergic<br>to dogs</p>
+          </div>
+          <div class="stat">
+            <p class="stat__num">1M+</p>
+            <p class="stat__label">Asthma attacks annually are linked to dog allergies</p>
+          </div>
+          <div class="stat">
+            <p class="stat__num">25%</p>
+            <p class="stat__label">of rehomed pets are linked to allergies</p>
+          </div>
+        </div>
+        <p class="stats__sources">Sources: Gergen et al., 2019; Weiss et al., 2015</p>
+      </div>
+    </section>
+
+    <!-- ===================== SCIENCE — PROCESS ===================== -->
+    <section class="science" id="science" tabindex="-1">
+      <div class="science__inner">
+        <h2 class="section-title" data-split>The science starts <span class="accent-brown">at the source</span></h2>
+        <p class="science__lead" data-fade>Our research focuses on <em>Can f</em> 1, widely recognized as the major dog allergen.</p>
+        <div class="science__steps">
+          <div class="step">
+            <img class="step__circle" src="assets/images/science-1.png" alt="DNA sequencing readout" loading="lazy" decoding="async" />
+            <p class="step__label">Edit dog cells</p>
+          </div>
+          <img class="step__arrow" src="assets/images/arrow.png" alt="" loading="lazy" decoding="async" />
+          <div class="step">
+            <img class="step__circle" src="assets/images/science-2.png" alt="Edited cell cultures in a dish" loading="lazy" decoding="async" />
+            <p class="step__label">Create embryos from edited cells</p>
+          </div>
+          <img class="step__arrow" src="assets/images/arrow.png" alt="" loading="lazy" decoding="async" />
+          <div class="step">
+            <img class="step__circle" src="assets/images/science-3.png" alt="Two beagle puppies" loading="lazy" decoding="async" />
+            <p class="step__label">Healthy pups are born<sup class="paper-footnote" hidden>1</sup></p>
+          </div>
+        </div>
+        <!-- Hidden by default; shown + linked by initContent() when content/paper.json has show:true + a URL (edited via Pages CMS). -->
+        <a class="btn btn--text science__paper" href="#" hidden><sup>1</sup>Read the paper <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <!-- ===================== MEET ALFIE & BAILEY ===================== -->
+    <section class="split" id="alfie" tabindex="-1">
+      <div class="split__inner">
+        <h2 class="split__title" data-split>Meet <span class="accent-brown">Alfie&nbsp;&amp;&nbsp;Bailey</span></h2>
+        <div class="split__media">
+          <img src="assets/images/alfie-bailey-new.jpg" alt="Alfie and Bailey, two beagles, curled up together" data-fade loading="lazy" decoding="async" />
+        </div>
+        <div class="split__body" data-fade>
+          <p>Alfie and Bailey are the first Kindred dogs. Happy, deeply loved, and very real.</p>
+          <p>Born in September 2024 in New York, they spend their days playing, napping, asking for snacks, and reminding us why this work matters.</p>
+          <p>They live with the same love, attention, and veterinary care that guides every part of Kindred's work.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PHOTO BAND ===================== -->
+    <section class="band">
+      <img src="assets/images/band2.jpg" alt="A Kindred dog enjoying a sunny day outdoors" loading="lazy" decoding="async" />
+    </section>
+
+    <!-- ===================== TIMELINE — WHERE WE ARE TODAY ===================== -->
+    <section class="timeline" id="timeline" tabindex="-1">
+      <div class="timeline__inner">
+        <h2 class="section-title" data-split>Where we are <span class="accent-brown">today</span></h2>
+        <p class="timeline__lead" data-fade>Kindred is moving forward carefully, with ongoing peer-reviewed research and the appropriate regulatory process guiding each step before any dogs are available for placement.</p>
+        <ol class="timeline__track">
+          <li class="milestone">
+            <span class="milestone__dot"><img class="milestone__check" src="assets/images/Check.png" alt="" loading="lazy" decoding="async" /></span>
+            <div class="milestone__body">
+              <h3 class="milestone__label">First dogs born</h3>
+              <p class="milestone__desc">Alfie and Bailey are the first Kindred dogs born during this research.</p>
+            </div>
+          </li>
+          <li class="milestone">
+            <span class="milestone__dot"><img class="milestone__check" src="assets/images/Check.png" alt="" loading="lazy" decoding="async" /></span>
+            <div class="milestone__body">
+              <h3 class="milestone__label">Science published</h3>
+              <p class="milestone__desc">Our work has been peer-reviewed and published.</p>
+            </div>
+          </li>
+          <li class="milestone">
+            <span class="milestone__dot"><img class="milestone__check" src="assets/images/Check.png" alt="" loading="lazy" decoding="async" /></span>
+            <div class="milestone__body">
+              <h3 class="milestone__label">Responsible progress</h3>
+              <p class="milestone__desc">We're following the appropriate regulatory path with care.</p>
+            </div>
+          </li>
+          <li class="milestone milestone--future">
+            <span class="milestone__dot" aria-hidden="true"></span>
+            <div class="milestone__body">
+              <h3 class="milestone__label">Future placements</h3>
+              <p class="milestone__desc">Our hope is to help allergy-sensitive households experience life with a dog.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===================== SIGNUP — WALK WITH US ===================== -->
+    <section class="signup" id="signup" tabindex="-1">
+      <div class="signup__inner">
+        <h2 class="signup__title" data-split>Take a walk <span class="accent-brown">with us</span></h2>
+        <p class="signup__lead" data-fade>Join our list to follow our research, regulatory progress, and future availability.</p>
+        <!-- Step 1 — name + email, captured immediately (posts to Basin) -->
+        <form class="signup__form" id="signup-step1" action="https://usebasin.com/f/dd23c1210642" method="post" novalidate>
+          <input type="hidden" name="form_type" value="Signup" />
+          <input class="field" type="text" name="name" placeholder="Name" aria-label="Name" autocomplete="name" required />
+          <input class="field" type="email" name="email" placeholder="Email" aria-label="Email" autocomplete="email" required />
+          <div id="ts-step1" class="signup__turnstile"></div>
+          <button class="btn btn--solid signup__submit" type="submit">Submit</button>
+        </form>
+
+        <!-- Step 2 — optional follow-up questions, shown after step 1 (posts to Basin, linked by email) -->
+        <form class="signup__form signup__questions" id="signup-step2" action="https://usebasin.com/f/dd23c1210642" method="post" hidden novalidate>
+          <input type="hidden" name="form_type" value="Follow-up questions" />
+          <input type="hidden" name="name" value="" />
+          <input type="hidden" name="email" value="" />
+          <fieldset class="signup__q">
+            <legend class="signup__q-label">Has allergy limited your ability to own or live with a dog? <span class="signup__optional">(optional)</span></legend>
+            <div class="signup__options">
+              <label class="signup__radio"><input type="radio" name="allergy_limited_ownership" value="Yes" /><span>Yes</span></label>
+              <label class="signup__radio"><input type="radio" name="allergy_limited_ownership" value="No" /><span>No</span></label>
+              <label class="signup__radio"><input type="radio" name="allergy_limited_ownership" value="Prefer not to say" /><span>Prefer not to say</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="signup__q">
+            <legend class="signup__q-label">Are you interested in service, assistance, or working dogs? <span class="signup__optional">(optional)</span></legend>
+            <div class="signup__options">
+              <label class="signup__radio"><input type="radio" name="interested_service_working_dogs" value="Yes" /><span>Yes</span></label>
+              <label class="signup__radio"><input type="radio" name="interested_service_working_dogs" value="No" /><span>No</span></label>
+              <label class="signup__radio"><input type="radio" name="interested_service_working_dogs" value="Prefer not to say" /><span>Prefer not to say</span></label>
+            </div>
+          </fieldset>
+          <div id="ts-step2" class="signup__turnstile"></div>
+          <button class="btn btn--solid signup__submit" type="submit">Submit</button>
+        </form>
+
+        <p class="signup__status" role="status" aria-live="polite" hidden></p>
+        <p class="signup__fine">By joining the list, you agree to receive occasional emails from Kindred Companion Sciences. You can unsubscribe at any time.</p>
+      </div>
+    </section>
+
+    <!-- ===================== NEWS — IN THE NEWS ===================== -->
+    <!-- Section visibility + cards are controlled by the CMS (content/news.json) and
+         rendered by initContent() in script.js. Stays hidden until visible:true with
+         at least one article. (Heading is a plain title — not data-split — because the
+         section is shown dynamically, after the scroll-reveal observers have run.) -->
+    <section class="news" id="news" tabindex="-1" hidden>
+      <div class="news__inner">
+        <h2 class="section-title">Kindred <span class="accent-brown">in the news</span></h2>
+        <div class="news__grid"></div>
+      </div>
+    </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section class="faq" id="faq" tabindex="-1">
+      <div class="faq__inner">
+        <h2 class="section-title">FAQ</h2>
+        <div class="faq__list">
+          <details class="faq__item">
+            <summary class="faq__q">What is Kindred developing?<span class="faq__icon" aria-hidden="true"></span></summary>
+            <div class="faq__a">
+              <p>We are developing dogs for allergy-sensitive households.</p>
+              <p>The science begins with <em>Can f</em> 1, widely recognized as the gene responsible for most dog allergies. In our peer-reviewed research, we made a precise edit to remove <em>Can f</em> 1 in dog cells, then used those cells to create the first Kindred dogs.</p>
+              <p>We're building carefully and responsibly toward a future where more people may be able to experience life with a dog.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">How is Kindred different from "hypoallergenic" dogs?<span class="faq__icon" aria-hidden="true"></span></summary>
+            <div class="faq__a">
+              <p>So-called "hypoallergenic" breeds still produce the major dog allergen: they simply shed less of it. Kindred's approach addresses the allergen at its genetic source.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">How does Kindred approach animal health and welfare?<span class="faq__icon" aria-hidden="true"></span></summary>
+            <div class="faq__a">
+              <p>The health and wellbeing of our dogs guide every part of our work. The first Kindred dogs, born during our peer-reviewed research phase, were healthy and developed normally. The patent-pending genomic alteration described in this study is investigational and has not yet been reviewed by FDA.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Why does this matter?<span class="faq__icon" aria-hidden="true"></span></summary>
+            <div class="faq__a">
+              <p>For millions of people, allergies make living with a dog impossible. Kindred is working toward a future where more people can experience that companionship.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Are Kindred dogs available today?<span class="faq__icon" aria-hidden="true"></span></summary>
+            <div class="faq__a">
+              <p>Not yet. Alfie and Bailey are the first Kindred dogs, and we're following the appropriate regulatory path before any dogs are available for placement.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">What kind of dogs is Kindred developing?<span class="faq__icon" aria-hidden="true"></span></summary>
+            <div class="faq__a">
+              <p>Happy, healthy companion dogs for allergy-sensitive households. We'll share more about specific breeds as our work progresses.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PHOTO BAND — FOOTER HERO ===================== -->
+    <section class="band band--tall">
+      <img src="assets/images/band-footer.jpg" alt="People spending time with their Kindred dogs" loading="lazy" decoding="async" />
+    </section>
+
+  </main>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <img class="footer__mark" src="assets/images/Monogram_Color.svg" alt="Kindred monogram" width="135" height="107" loading="lazy" decoding="async" draggable="false" />
+      <div class="footer__legal">
+        <p>© 2026 Can9 Bioengineering Inc. d/b/a Kindred Companion Sciences™</p>
+        <p>
+          Partnerships: <a href="mailto:partnerships@kindredcompanion.com">partnerships@kindredcompanion.com</a><br />
+          Media: <a href="mailto:press@kindredcompanion.com">press@kindredcompanion.com</a>
+        </p>
+        <p class="footer__links"><a href="privacy.html">Privacy Policy</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="script.js?v=22"></script>
+
+</body>
+</html>

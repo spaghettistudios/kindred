@@ -1,0 +1,1284 @@
+/* ============================================================
+   Kindred Companion Sciences — Landing Page
+   Phase 1: layout & responsive structure
+   ============================================================ */
+
+/* ---------- Season Sans (drop web font files into assets/fonts) ----------
+   Expected files (woff2 + woff fallback):
+     assets/fonts/SeasonSans-Medium.woff2 / .woff   -> weight 500
+     assets/fonts/SeasonSans-SemiBold.woff2 / .woff -> weight 600
+   Until these exist, the stack gracefully falls back to Hanken Grotesk. */
+@font-face {
+  font-family: "Season Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/SeasonSans-Medium.woff2") format("woff2"),
+       url("assets/fonts/SeasonSans-Medium.woff") format("woff");
+}
+@font-face {
+  font-family: "Season Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/SeasonSans-SemiBold.woff2") format("woff2"),
+       url("assets/fonts/SeasonSans-SemiBold.woff") format("woff");
+}
+
+/* ============================ TOKENS ============================ */
+:root {
+  /* Brand colors */
+  --tan: #F5E2DA;
+  --brown: #48231D;
+  --dark-brown: #2A0E0A;
+  --light-brown: #97653A;       /* brand accent — AA for large text only (3.96:1 on tan) */
+  --accent-text: #855731;       /* darker accent for small text/links — AA 4.9:1 on tan */
+  --blue: #97C0E3;
+  --navy: #040F36;              /* dark sections (the catch / walk-with-us) */
+
+  /* Fonts */
+  --sans: "Season Sans", "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --script: "Caveat", "Season Sans", cursive;
+
+  /* Type scale — desktop (1440 reference) */
+  --fs-display: clamp(72px, 7vw, 100px);   /* hero headline */
+  --fs-h1: clamp(40px, 5vw, 72px);         /* section title */
+  --fs-h2: clamp(26px, 2.22vw, 32px);      /* sub-section headline / lead / timeline label */
+  --fs-body: clamp(18px, 1.46vw, 21px);    /* body copy */
+  --fs-small: 16px;                        /* timeline captions */
+  --fs-cta: 16px;                          /* button / eyebrow */
+  --fs-caption: 14px;                      /* fine print — sources, disclaimer, legal */
+
+  /* Spacing */
+  --gutter: 24px;                              /* page side padding */
+  --section-y: clamp(80px, 8.7vw, 125px);      /* standard section vertical padding */
+  --section-y-tight: clamp(28px, 3vw, 44px);   /* edge shared by grouped sections */
+  --nav-top: 38px;                             /* gap from viewport top to the nav bar */
+  --nav-space: 130px;                          /* scroll-margin so anchors clear the nav */
+
+  /* Layout */
+  --content-max: 1185px;                       /* default content column width */
+
+  /* Radius */
+  --radius-sm: 10px;                           /* nav, inputs, cards */
+  --radius-lg: 14px;                           /* buttons, photos */
+}
+
+/* ============================ RESET ============================ */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  font-weight: 500;
+  color: var(--brown);
+  background: var(--tan);
+  line-height: 1.3;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, picture, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; padding: 0; }
+button { font: inherit; cursor: pointer; }
+/* avoid typographic orphans (a lone word on the last line) in body copy;
+   ignored gracefully by browsers without text-wrap: pretty support */
+p, li { text-wrap: pretty; }
+
+/* ============================ HELPERS ============================ */
+.accent-brown { color: var(--light-brown); }
+/* footnote markers (citation "1" on the science step + the "Read the paper" CTA):
+   smaller than the browser default and zero line-height so they don't inflate
+   the line they sit on. */
+sup {
+  font-size: 0.55em;
+  vertical-align: super;
+  line-height: 0;
+  font-weight: inherit;
+}
+.nowrap { white-space: nowrap; }
+.m-only { display: none; } /* line break that only applies at mobile width */
+
+/* ============================ BUTTONS ============================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4em;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: var(--fs-cta);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+.btn--ghost {
+  padding: 13px 28px;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-lg);
+  color: var(--tan);
+}
+.btn--ghost:hover { background: var(--tan); color: var(--brown); border-color: var(--tan); }
+.btn--text { color: var(--accent-text); }
+.btn--text:hover { color: var(--brown); }
+
+/* Filled CTA (forms etc.) */
+.btn--solid {
+  padding: 14px 32px;
+  border: none;
+  border-radius: var(--radius-lg);
+  background: var(--brown);
+  color: var(--tan);
+}
+.btn--solid:hover { background: var(--dark-brown); }
+
+/* ============================ NAV ============================ */
+.nav-wrap {
+  position: fixed;
+  top: var(--nav-top);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  padding-inline: clamp(16px, 3.3vw, 47px);
+  transition: transform 0.3s ease;
+}
+/* 4.3 — direction-aware nav hides upward (clears its own height + top gap) */
+.nav-wrap.is-hidden { transform: translateY(calc(-100% - var(--nav-top))); }
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 75px;
+  padding: 0 24px 0 30px;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px) saturate(1.4);
+  -webkit-backdrop-filter: blur(8px) saturate(1.4);
+}
+/* logo is the SVG rendered as a mask so its fill can recolor on hover
+   (white by default, cream on hover); the <a> carries the accessible name */
+.nav__logo {
+  display: block;
+  height: 27px;
+  aspect-ratio: 769 / 140;
+  background-color: #FFFFFF;
+  -webkit-mask: url("assets/images/KindredLogo_White.svg") center / contain no-repeat;
+          mask: url("assets/images/KindredLogo_White.svg") center / contain no-repeat;
+  transition: background-color 0.2s ease;
+}
+.nav__logo:hover { background-color: #F5E2DA; }
+/* Nav links are toggled off in the Figma design — kept in DOM, hidden visually */
+.nav__links { display: none; }
+/* CTA scaled down to sit comfortably in the 75px bar */
+.nav__cta { font-size: 14px; padding: 10px 22px; color: #FFFFFF; }
+
+/* ============================ HERO ============================ */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1440 / 960;
+  max-height: 100svh;
+  overflow: hidden;
+  padding: 24px;
+}
+.hero__bg { position: absolute; inset: 0; }
+.hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* the photo's aspect is close to the hero's, so there's little crop room;
+     zoom in slightly and nudge the image down so the dog's eyes sit below the
+     headline instead of behind it (desktop; reset on mobile).
+     scale 1.14 (not 1.12): its 7% top overflow now clears the 6% downward nudge,
+     so the image always covers the top edge instead of leaving a hairline strip.
+     --parallax-y (set by initParallax, same effect as the photo bands) is applied
+     outermost so it's a clean px shift on top of the framing, not scaled by it. */
+  transform: translateY(var(--parallax-y, 0px)) scale(1.14) translateY(6%);
+  will-change: transform;
+}
+.hero__scrim { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.20); }
+.hero__headline {
+  position: relative;
+  max-width: 1000px;
+  text-align: center;
+  color: #fff;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: var(--fs-display);
+  line-height: 0.7;
+  letter-spacing: -0.01em;
+}
+/* Desktop: a slightly smaller headline leaves room to frame the woman's face,
+   the text, the dog's eyes AND a bit of its nose in the hero crop. */
+@media (min-width: 861px) {
+  .hero__headline { font-size: clamp(60px, 5.6vw, 82px); }
+}
+.hero__headline em {
+  font-family: var(--script);
+  font-style: normal;
+  font-weight: 700;
+  /* script face renders visually smaller — scale up to match the sans glyphs */
+  font-size: 1.32em;
+  letter-spacing: -0.02em;
+  /* Extra trailing gap before "a" — the slanted script "s" overhangs into the
+     space and reads as one word otherwise. Less negative than the -0.35em
+     containment margin, so it adds real space while the padding still clips-proofs
+     the overhang. */
+  margin-right: -0.19em;
+}
+/* Each headline word is its own box so the per-word fade can't clip the script
+   glyphs' slanted overhang: the horizontal padding widens the paint box to
+   contain the ink, and the equal negative margin keeps the advance unchanged.
+   (Same fix as the stat numbers — opacity transitions clip to the box.) */
+.hero__w {
+  padding: 0 0.35em;       /* widens the inline paint box to contain the overhang */
+  margin: 0 -0.35em;       /* cancels the padding so advance is unchanged */
+}
+
+/* ===================== HERO — CONTENT / INTRO ===================== */
+.intro {
+  background: var(--tan);
+  padding: var(--section-y) var(--gutter);
+}
+.intro__inner {
+  max-width: 839px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(32px, 3.4vw, 49px);
+}
+.intro__motif {
+  height: 120px;
+  width: auto;
+}
+.intro__title {
+  font-weight: 600;
+  font-size: var(--fs-h1);
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+  color: var(--brown);
+}
+/* line 2 ("dog lovers with allergies") is wider than line 1, so a width-based
+   break can't put it on its own line — make the colored phrase its own line */
+.intro__title .accent-brown { display: block; }
+.intro__body {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.3em;
+  font-size: var(--fs-body);
+  line-height: 1.3;
+  letter-spacing: 0.02em; /* matches Figma body tracking so line breaks align */
+  color: var(--dark-brown);
+}
+
+/* The motif + title share a tighter gap than the rest of the stack */
+.intro__motif + .intro__title { margin-top: -17px; }
+
+/* ===================== SHARED SECTION HEADING ===================== */
+.section-title {
+  font-weight: 600;
+  font-size: var(--fs-h1);
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+  color: var(--brown);
+  text-align: center;
+}
+
+/* ===================== NEWS LOGOS — TICKER ===================== */
+/* The ticker owns the whole tan band between the intro and the stats: the intro
+   hands off its closing space so this one padding value sets the air on both
+   sides of the logos, keeping the subsection visually centred. */
+.intro:has(+ .news-ticker) { padding-bottom: 0; }
+.news-ticker {
+  background: var(--tan);
+  padding-block: clamp(72px, 8vw, 120px);
+
+  --ticker-row: clamp(39px, 4vw, 57px);            /* height of the tallest mark (AP) */
+  --ticker-scale: calc(var(--ticker-row) / 120);   /* Figma row is 120px tall */
+  --ticker-gap: clamp(48px, 5vw, 72px);
+  --ticker-fade: clamp(72px, 16vw, 280px);         /* soft edges left and right */
+  --ticker-duration: 75s;                          /* tuned to hold ~29px/s */
+}
+
+.news-ticker__viewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--ticker-fade),
+                                             #000 calc(100% - var(--ticker-fade)), transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 var(--ticker-fade),
+                                             #000 calc(100% - var(--ticker-fade)), transparent);
+}
+.news-ticker__track {
+  display: flex;
+  align-items: center;
+  gap: var(--ticker-gap);
+  width: max-content;
+}
+/* every logo is scaled by the same factor, so the relative weighting matches Figma */
+.news-ticker__logo {
+  flex: none;
+  width: calc(var(--nw) * var(--ticker-scale));
+  height: calc(var(--nh) * var(--ticker-scale));
+}
+.logo--cbs       { --nw: 288; --nh:  38; }
+.logo--gma       { --nw: 326; --nh:  76; }
+.logo--wired     { --nw: 301; --nh:  60; }
+.logo--ap        { --nw: 103; --nh: 120; }
+.logo--wapo      { --nw: 514; --nh:  79; }
+.logo--guardian  { --nw: 489; --nh:  85; }
+.logo--indy      { --nw: 600; --nh:  98; }
+.logo--newsweek  { --nw: 406; --nh:  63; }
+.logo--brew      { --nw: 525; --nh:  74; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .news-ticker__track { animation: news-ticker-scroll var(--ticker-duration) linear infinite; }
+}
+/* one run = half the track minus half of the gap that joins the two runs */
+@keyframes news-ticker-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(-50% - (var(--ticker-gap) / 2)), 0, 0); }
+}
+/* static and swipeable when motion is unwelcome — the duplicate run is dropped */
+@media (prefers-reduced-motion: reduce) {
+  .news-ticker__viewport { overflow-x: auto; scrollbar-width: none; }
+  .news-ticker__viewport::-webkit-scrollbar { display: none; }
+  .news-ticker__logo[aria-hidden="true"] { display: none; }
+}
+
+/* ===================== STATS — THE CATCH ===================== */
+.stats {
+  background: var(--navy);
+  color: var(--tan);
+  padding: var(--section-y) var(--gutter);
+}
+.stats__inner {
+  max-width: 1063px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(48px, 6.25vw, 90px);
+}
+/* width tuned (in em, so it scales with the heading) to break after "people," and "comes" */
+.stats .section-title { color: var(--tan); max-width: 9.6em; }
+/* on the navy sections the whole headline is cream (no two-tone accent) */
+.stats .section-title .accent-brown,
+.signup__title .accent-brown { color: var(--tan); }
+.stats__blocks {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.stat__num {
+  font-family: var(--script);
+  font-weight: 700;
+  font-size: clamp(72px, 7.4vw, 106px);
+  line-height: 1;
+  color: var(--blue);
+}
+/* JS splits each number into per-character spans so they can fade in one
+   at a time; inline-block keeps spaces/kerning intact.
+   The padding+equal negative margin widens each span's *paint box* to contain
+   the script font's slanted ink overhang, without changing its advance — so the
+   opacity transition's temporary layer doesn't clip the glyph's right/edges
+   (which otherwise makes the trailing edge appear to fade in late). */
+.stat__char {
+  display: inline-block;
+  white-space: pre;
+  padding: 0.15em 0.3em;
+  margin: -0.15em -0.3em;
+}
+.stat__label {
+  font-size: var(--fs-body);
+  line-height: 1.3;
+  color: var(--tan);
+  max-width: 22ch;
+}
+.stats__sources {
+  font-size: var(--fs-caption);
+  line-height: 1.3;
+  color: var(--tan);
+  opacity: 0.85;
+}
+
+/* ===================== SCIENCE — PROCESS ===================== */
+.science {
+  background: var(--tan);
+  /* slightly tighter gap into the Meet Alfie & Bailey section below */
+  padding: var(--section-y) var(--gutter) clamp(56px, 6vw, 88px);
+}
+.science__inner {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+/* width tuned (em-based, scales with heading) to break after "starts" */
+.science .section-title { max-width: 8.4em; }
+.science__lead {
+  max-width: 600px;
+  margin-top: clamp(24px, 3.4vw, 49px);   /* matches .timeline__lead / .split__body */
+  font-size: var(--fs-body);
+  line-height: 1.3;
+  color: var(--dark-brown);
+}
+.science__lead em { font-style: italic; }
+.science__steps {
+  width: 100%;
+  margin-top: clamp(40px, 4vw, 57px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(16px, 2.6vw, 38px);
+}
+.step {
+  width: 289px;
+  max-width: 289px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(16px, 1.9vw, 27px);
+}
+.step__circle {
+  width: clamp(120px, 11.9vw, 171px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.step__label {
+  font-size: var(--fs-h2);
+  line-height: 1.1;
+  color: var(--light-brown);
+}
+.step__arrow {
+  flex-shrink: 0;
+  width: clamp(44px, 5.8vw, 84px);
+  height: auto;
+  /* vertically center the arrow against the circle */
+  margin-top: clamp(38px, 5vw, 70px);
+}
+.science__paper { margin-top: clamp(40px, 4vw, 57px); }
+/* .btn sets display:inline-flex, which would override the [hidden] UA style —
+   restore the hide so initContent() can toggle the CMS-controlled paper link. */
+.science__paper[hidden] { display: none; }
+/* The CTA is an inline-flex row (align-items: center), so the footnote marker
+   would otherwise sit vertically centered. Pin it to the top-left of "READ";
+   the flex `gap` already supplies the horizontal spacing. */
+.science__paper sup {
+  align-self: flex-start;
+  line-height: 1;        /* override the global sup line-height:0 for the flex item */
+  margin-right: -0.73em; /* cancel the button's flex gap (0.4em of the button font,
+                            ≈0.73em at the sup's font-size) so "1" sits against "READ" */
+}
+
+/* ===================== FULL-BLEED PHOTO BAND ===================== */
+.band {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1440 / 703;
+  overflow: hidden;
+}
+.band--tall { aspect-ratio: 1440 / 960; }
+.band img { width: 100%; height: 100%; object-fit: cover; }
+/* keep the dog (left of frame) in view when the footer band crops to portrait */
+.band--tall img { object-position: 20% center; }
+
+/* ===================== SPLIT (TEXT + PHOTO) ===================== */
+.split {
+  background: var(--tan);
+  padding: var(--section-y) var(--gutter);
+}
+/* centered, stacked: headline → image → body (matches the other sections) */
+.split__inner {
+  max-width: 800px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.split__title {
+  font-weight: 600;
+  font-size: var(--fs-h1);
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+  color: var(--brown);
+}
+.split__media {
+  width: 100%;
+  max-width: 620px;
+  margin-top: clamp(32px, 4vw, 56px);
+}
+.split__media img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+}
+.split__body {
+  margin-top: clamp(24px, 3.4vw, 49px);   /* matches .timeline__lead / .science__lead */
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.3em;
+  font-size: var(--fs-body);
+  line-height: 1.3;
+  letter-spacing: 0.02em; /* matches Figma body tracking so line breaks align */
+  color: var(--dark-brown);
+}
+
+/* ===================== TIMELINE — WHERE WE ARE TODAY ===================== */
+.timeline {
+  background: var(--tan);
+  padding: var(--section-y) var(--gutter);
+  --tl-gap: clamp(24px, 4vw, 64px);
+}
+.timeline__inner {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.timeline__lead {
+  margin-top: clamp(24px, 3.4vw, 49px);
+  max-width: 600px;
+  text-align: center;
+  font-size: var(--fs-body);
+  line-height: 1.3;
+  color: var(--dark-brown);
+}
+.timeline__track {
+  margin-top: clamp(48px, 6vw, 87px);
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--tl-gap);
+}
+.milestone {
+  position: relative;
+  flex: 1;
+  min-width: 0; /* allow equal columns regardless of content width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 8px;
+}
+.milestone__dot {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 53px;
+  height: 53px;
+  border-radius: 50%;
+  background: var(--brown);
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--script);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1;
+}
+.milestone--future .milestone__dot {
+  background: transparent;
+  border: 2px dashed var(--light-brown);
+}
+.milestone__check { width: 50%; height: auto; }
+/* horizontal connector line between dots (spans the gap to the next dot) */
+.milestone:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 26px;
+  left: 50%;
+  width: calc(100% + var(--tl-gap));
+  border-top: 2px solid var(--light-brown);
+  z-index: 0;
+}
+/* dashed segment stops at the edge of the future (dashed) circle instead of running through it */
+.milestone:nth-child(3)::after {
+  border-top-style: dashed;
+  width: calc(100% + var(--tl-gap) - 28px);
+}
+.milestone__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 222px;
+}
+.milestone__label {
+  margin-top: clamp(18px, 2vw, 28px);
+  /* narrow enough that "First dogs born" wraps to two lines naturally,
+     wide enough to keep the longest word ("Responsible") on one line */
+  max-width: 200px;
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--light-brown);
+}
+.milestone__desc {
+  margin-top: 14px;
+  max-width: 222px;
+  font-size: var(--fs-small);
+  line-height: 1.3;
+  color: var(--dark-brown);
+}
+
+/* ===================== SIGNUP — WALK WITH US ===================== */
+.signup {
+  background: var(--navy);
+  color: var(--tan);
+  padding: var(--section-y) var(--gutter);
+}
+.signup__inner {
+  max-width: 700px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.signup__title {
+  font-weight: 600;
+  font-size: var(--fs-h1);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--tan);
+}
+.signup__lead {
+  margin-top: clamp(28px, 3.4vw, 49px);
+  max-width: 600px;       /* match the other body paragraphs (.intro__body) */
+  font-size: var(--fs-body);
+  line-height: 1.3;
+  color: var(--tan);
+}
+.signup__form {
+  margin-top: clamp(36px, 3.5vw, 50px);
+  width: min(500px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+.field {
+  width: 100%;
+  height: 62px;
+  padding: 0 20px;
+  border: 1px solid var(--tan);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--tan);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+}
+.field::placeholder {
+  color: var(--tan);
+  opacity: 0.5;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.field:focus { outline: 2px solid var(--blue); outline-offset: 2px; }
+/* Invisible Turnstile mounts here (one per form step). The widget renders no visible
+   box, so the container generates none either (display:contents) and adds no gap to the
+   form's flex flow — the hidden cf-turnstile-response input still posts with the form. */
+.signup__turnstile { display: contents; }
+.signup__submit {
+  margin-top: 31px; /* +17px form gap = 48px from fields */
+  align-self: center;
+  background: var(--light-brown);
+  color: var(--tan);
+}
+.signup__submit:hover { background: color-mix(in srgb, var(--light-brown), black 12%); }
+.signup__fine {
+  margin-top: clamp(28px, 2.8vw, 40px);
+  max-width: 540px;
+  font-size: var(--fs-caption);
+  line-height: 1.3;
+  color: var(--tan);
+  opacity: 0.9;
+}
+
+/* two-step signup — hidden form step, follow-up questions, AJAX status */
+.signup__form[hidden] { display: none; }
+.signup__questions {
+  width: min(600px, 100%);
+  gap: clamp(28px, 3.4vw, 40px);
+  text-align: left;
+}
+.signup__q { border: 0; padding: 0; margin: 0; min-width: 0; }
+.signup__q-label {
+  display: block;
+  margin-bottom: 16px;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--tan);
+}
+.signup__optional {
+  font-weight: 500;
+  font-size: 0.8em;
+  letter-spacing: 0.04em;
+  opacity: 0.6;
+}
+.signup__options { display: flex; flex-direction: column; gap: 14px; }
+.signup__radio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  color: var(--tan);
+  font-size: var(--fs-cta);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.signup__radio input {
+  appearance: none;
+  -webkit-appearance: none;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border: 1px solid var(--tan);
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+}
+.signup__radio input::before {
+  content: "";
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--tan);
+  transform: scale(0);
+  transition: transform 0.15s ease;
+}
+.signup__radio input:checked::before { transform: scale(1); }
+.signup__radio input:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.signup__radio:hover input { border-color: #fff; }
+/* the follow-up submit leans on the form gap for its top spacing */
+.signup__questions .signup__submit { margin-top: 0; }
+
+.signup__status {
+  margin-top: clamp(24px, 2.6vw, 34px);
+  font-size: var(--fs-body);
+  line-height: 1.3;
+  color: var(--tan);
+}
+.signup__status[hidden] { display: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* the questions fade in when they replace the name/email step */
+  .signup__questions { opacity: 0; transition: opacity 0.45s ease; }
+  .signup__questions.is-in { opacity: 1; }
+}
+
+/* ===================== NEWS — IN THE NEWS ===================== */
+.news {
+  background: var(--tan);
+  padding: var(--section-y) var(--gutter);
+}
+.news__inner {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.news__grid {
+  margin-top: clamp(48px, 6vw, 87px);
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(28px, 5vw, 74px);
+}
+.news-card { display: flex; flex-direction: column; }
+.news-card__media {
+  width: 100%;
+  aspect-ratio: 346 / 193;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--light-brown) 13%, transparent);
+  overflow: hidden;
+}
+/* CMS-uploaded article image fills the media box (kept empty/tinted until one exists) */
+.news-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.news-card__title {
+  margin-top: clamp(20px, 2.4vw, 34px);
+  font-size: var(--fs-body);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--dark-brown);
+}
+.news-card__link { margin-top: 14px; align-self: flex-start; }
+
+/* ===================== FAQ ===================== */
+.faq {
+  background: var(--tan);
+  padding: var(--section-y) var(--gutter);
+}
+.faq__inner {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.faq__list {
+  margin-top: clamp(40px, 5vw, 71px);
+  width: 100%;
+  border-top: 1px solid var(--light-brown);
+}
+.faq__item { border-bottom: 1px solid var(--light-brown); }
+.faq__q {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: clamp(20px, 2.5vw, 40px) 0;
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--brown);
+}
+.faq__q::-webkit-details-marker { display: none; }
+.faq__icon {
+  position: relative;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+}
+.faq__icon::before,
+.faq__icon::after {
+  content: "";
+  position: absolute;
+  background: var(--light-brown);
+}
+.faq__icon::before { left: 0; top: 50%; width: 100%; height: 2px; transform: translateY(-50%); }
+.faq__icon::after { left: 50%; top: 0; width: 2px; height: 100%; transform: translateX(-50%); }
+/* open-state rotation is motion-gated: .is-open (animated) / [open] (reduced, instant) */
+.faq__a {
+  padding: 4px 0 clamp(28px, 3.4vw, 40px);
+  max-width: 720px;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.3em;
+  font-size: var(--fs-body);
+  line-height: 1.3;
+  color: var(--dark-brown);
+}
+.faq__a em { font-style: italic; }
+
+/* ============================ FOOTER ============================ */
+.footer {
+  background: var(--tan);
+  /* shorter than a standard section — the footer needn't carry full section height */
+  padding: clamp(44px, 4.8vw, 72px) var(--gutter);
+}
+.footer__inner {
+  max-width: 471px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  text-align: center;
+}
+.footer__mark { width: clamp(110px, 9.4vw, 135px); height: auto; }
+.footer__legal {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3em;
+  font-size: var(--fs-caption);
+  line-height: 1.3;
+  color: var(--dark-brown);
+}
+.footer__legal a {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.footer__legal a:hover { color: var(--brown); }
+
+/* ===================== LEGAL / PRIVACY PAGE ===================== */
+/* Body already provides the cream (--tan) background. Reuses the site's type
+   scale; the page title maps to the section-title size (--fs-h1), section
+   headings to the sub-section size (--fs-h2), and copy to --fs-body. */
+.legal {
+  max-width: 760px;
+  margin-inline: auto;
+  /* top padding clears the fixed nav (top gap + 75px bar) plus breathing room */
+  padding: calc(var(--nav-top) + 75px + clamp(36px, 6vw, 88px)) var(--gutter) clamp(80px, 9vw, 125px);
+  color: var(--brown);
+}
+.legal__title {
+  font-weight: 600;
+  font-size: var(--fs-h1);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+}
+.legal__date {
+  margin-top: 16px;
+  font-size: var(--fs-cta);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.legal h2 {
+  font-weight: 600;
+  font-size: var(--fs-h2);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin-top: clamp(44px, 5vw, 68px);
+}
+.legal p,
+.legal ul {
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  margin-top: 1em;
+}
+.legal h2 + p { margin-top: 0.9em; }
+.legal ul {
+  list-style: disc;
+  padding-left: 1.4em;
+}
+.legal li { margin-top: 0.55em; }
+.legal li::marker { color: var(--light-brown); }
+.legal strong { font-weight: 600; }
+.legal a {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.legal a:hover { color: var(--brown); }
+.legal__contact { line-height: 1.7; }
+
+/* ===================== FOOTER MONOGRAM — BOOP ===================== */
+.footer__mark {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-drag: none;   /* discourage dragging the image out */
+}
+
+/* a "boop" is spawned at the click point; each click makes its own (they stack) */
+.boop {
+  position: fixed;            /* placed at the cursor via clientX/clientY */
+  z-index: 9999;
+  pointer-events: none;
+  font-family: var(--script);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+  color: #fff;
+  /* padding widens the paint box so the script font's slanted overhang isn't
+     clipped by the opacity animation's compositing layer; the element is out of
+     flow and centered via translate, so the padding has no layout side effects. */
+  padding: 0.35em 0.45em;
+  transform: translate(-50%, -50%);   /* centered on the click point */
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .footer__mark { transition: transform 0.3s ease; }
+  .footer__mark:hover { transform: scale(1.06); }   /* grow ever so slightly */
+
+  .boop {
+    opacity: 0;                                       /* the animation reveals it */
+    animation: boop-pop 0.75s ease-out forwards;
+    will-change: transform, opacity;
+  }
+}
+
+/* fade in while scaling up slightly, then fade out */
+@keyframes boop-pop {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+  35%  { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.25); }
+}
+
+/* ============================ MOTION / INTERACTIONS ============================ */
+
+/* 4.4 — anchor targets clear the fixed nav when scrolled into view */
+main section[id] { scroll-margin-top: var(--nav-space); }
+/* the signup CTA ("Join the list") lands flush at the top of the viewport —
+   the nav auto-hides on the downward scroll, so it needn't clear it. */
+main section#signup { scroll-margin-top: 0; }
+/* programmatic scroll-focus targets shouldn't draw an outline around the whole band */
+main section[id]:focus { outline: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* 4.1 — section-header line reveal. Heading is hidden up-front (no flash of
+     un-split text), then visibility is handed to its individual lines.
+     width:100% keeps a definite measuring width so SplitType wraps lines
+     correctly (without it, word-wrapping collapses the heading to its widest word). */
+  .js [data-split] { opacity: 0; width: 100%; }
+  .js [data-split].is-split { opacity: 1; }
+  .js [data-split].is-split .line {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+  }
+  .js [data-split].is-split.is-in .line { opacity: 1; transform: none; }
+  /* on resize re-split, already-revealed headings snap to final (no replay) */
+  .js [data-split].no-anim .line { transition: none; }
+  /* break-controlled headings need an explicit (definite) width so SplitType
+     measures their lines at the intended width, not the full container width */
+  .js .stats .section-title { width: 9.6em; }
+  .js .science .section-title { width: 8.4em; }
+
+  /* 4.2 — content image fade-in on enter */
+  .js [data-fade] {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    will-change: opacity;
+  }
+  .js [data-fade].is-in { opacity: 1; }
+  /* body copy (non-image data-fade) fades in a beat after its heading animates
+     in, so the sequence is visible while scrolling */
+  .js [data-fade]:not(img) { transition-delay: 0.9s; }
+
+  /* hero headline: the words fade in one at a time on load —
+     "Everyone", pause, "deserves", pause, "a" then quickly "dog." */
+  .js .hero__headline .hero__w { opacity: 0; transition: opacity 0.48s ease; }
+  .js .hero__headline.is-in .hero__w { opacity: 1; }
+  .js .hero__headline .hero__w--2 { transition-delay: 0.6s; }
+  .js .hero__headline .hero__w--3 { transition-delay: 1.2s; }
+  .js .hero__headline .hero__w--4 { transition-delay: 1.2s; }   /* "a" + "dog." fade in together */
+
+  /* split sections: heading reveals first, then the photo fades in after it
+     (the body copy uses the shared 0.9s body-fade delay above) */
+  .js .split__media [data-fade] { transition-delay: 0.6s; }
+
+  /* science: the three step columns (and the arrows) cascade in left→right */
+  .js .science__steps > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .js .science__steps.is-in > * { opacity: 1; transform: none; }
+  .js .science__steps.is-in > *:nth-child(2) { transition-delay: 0.35s; }
+  .js .science__steps.is-in > *:nth-child(3) { transition-delay: 0.7s; }
+  .js .science__steps.is-in > *:nth-child(4) { transition-delay: 1.05s; }
+  .js .science__steps.is-in > *:nth-child(5) { transition-delay: 1.4s; }
+
+  /* stats: each number's characters fade in one at a time, with a longer pause
+     between columns; each label follows its number. JS splits the numbers into
+     .stat__char spans and sets the per-character / per-label transition-delays
+     (accumulated left→right) inline once the block scrolls into view. */
+  .js .stats__blocks.chars-ready .stat__char,
+  .js .stats__blocks.chars-ready .stat__label {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  /* Each character gets its own compositing layer during the fade. Without this,
+     the script font's slanted glyphs overlap their neighbours and Chrome squashes
+     a glyph's right-hand overhang into the *next* character's layer — so that edge
+     fades in on the later character's (delayed) timeline, the "right edge lags"
+     glitch. A dedicated layer per char keeps each glyph's ink on its own timeline. */
+  .js .stats__blocks.chars-ready .stat__char {
+    will-change: opacity;
+    backface-visibility: hidden;
+  }
+  .js .stats__blocks.chars-ready.is-in .stat__char,
+  .js .stats__blocks.chars-ready.is-in .stat__label {
+    opacity: 1;
+  }
+
+  /* timeline: dots pop in, captions fade/rise, connector lines draw in — sequenced L→R */
+  .js .timeline__track .milestone__dot {
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 1.0125s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.675s ease;
+    will-change: transform, opacity;
+  }
+  .js .timeline__track .milestone__body {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 1.125s ease, transform 1.125s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* connector lines are unmasked left→right via clip-path (dashes keep a fixed size) */
+  .js .timeline__track .milestone::after {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.9s ease;
+  }
+  .js .timeline__track.is-in .milestone__dot { transform: scale(1); opacity: 1; }
+  .js .timeline__track.is-in .milestone__body { opacity: 1; transform: none; }
+  .js .timeline__track.is-in .milestone::after { clip-path: inset(0 0 0 0); }
+  /* stagger: dot → line-to-next-dot → next dot … */
+  .js .timeline__track.is-in .milestone:nth-child(1) .milestone__dot { transition-delay: 0s; }
+  .js .timeline__track.is-in .milestone:nth-child(2) .milestone__dot { transition-delay: 0.81s; }
+  .js .timeline__track.is-in .milestone:nth-child(3) .milestone__dot { transition-delay: 1.62s; }
+  .js .timeline__track.is-in .milestone:nth-child(4) .milestone__dot { transition-delay: 2.43s; }
+  .js .timeline__track.is-in .milestone:nth-child(1) .milestone__body { transition-delay: 0.27s; }
+  .js .timeline__track.is-in .milestone:nth-child(2) .milestone__body { transition-delay: 1.08s; }
+  .js .timeline__track.is-in .milestone:nth-child(3) .milestone__body { transition-delay: 1.89s; }
+  .js .timeline__track.is-in .milestone:nth-child(4) .milestone__body { transition-delay: 2.7s; }
+  .js .timeline__track.is-in .milestone:nth-child(1)::after { transition-delay: 0.405s; }
+  .js .timeline__track.is-in .milestone:nth-child(2)::after { transition-delay: 1.215s; }
+  .js .timeline__track.is-in .milestone:nth-child(3)::after { transition-delay: 2.025s; }
+
+  /* FAQ smooth expand/collapse (grid-rows height animation) + icon rotate */
+  .faq__item[open] .faq__a-wrap { transition: grid-template-rows 0.32s ease; }
+  .faq__icon { transition: transform 0.25s ease; }
+  .faq__item.is-open .faq__icon { transform: rotate(45deg); }
+
+  /* photo-band parallax: oversize the image so JS can shift it vertically a touch */
+  .js .band img {
+    position: absolute;
+    top: -10%;
+    left: 0;
+    height: 120%;
+    will-change: transform;
+  }
+}
+
+/* FAQ answer wrapper — grid-rows height animation (JS creates the wrapper).
+   Collapsed (0fr) by default; expands to 1fr when open. */
+.faq__a-wrap { display: grid; grid-template-rows: 0fr; }
+.faq__item[open] .faq__a-wrap { grid-template-rows: 1fr; }
+.faq__a-inner { overflow: hidden; min-height: 0; }
+
+/* Timeline vertical line draws top→bottom on mobile */
+@media (prefers-reduced-motion: no-preference) and (max-width: 860px) {
+  .js .timeline__track .milestone::after { clip-path: inset(0 0 100% 0); }
+  .js .timeline__track.is-in .milestone::after { clip-path: inset(0 0 0 0); }
+
+  /* The reveal cascade animates `transform`, which would override the arrows'
+     rotate(90deg). Bake the rotation into both cascade states so the mobile
+     arrows still point down while they animate in. */
+  .js .science__steps > .step__arrow { transform: translateY(20px) rotate(90deg); }
+  .js .science__steps.is-in > .step__arrow { transform: rotate(90deg); }
+}
+
+/* Failsafe: never leave headings or the hero words hidden if the reveal module
+   fails to run (the hero words are hidden by the .js flag alone, so they'd
+   otherwise stay invisible without the is-in class JS adds). */
+.reveal-failsafe [data-split],
+.reveal-failsafe [data-fade],
+.reveal-failsafe .hero__w { opacity: 1 !important; }
+
+/* Reduced motion: instant anchor jumps (nav hide/show + reveals are skipped in JS) */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .faq__item[open] .faq__icon { transform: rotate(45deg); } /* instant, no transition */
+}
+
+/* ============================ RESPONSIVE ============================ */
+@media (max-width: 860px) {
+  :root { --nav-top: 16px; --nav-space: 90px; }
+
+  .nav-wrap { padding-inline: 11px; }
+  .nav { height: 60px; padding: 0 16px; }
+  .nav__logo { height: 24px; }
+
+  /* tall enough that only the top of the next section's dog motif peeks —
+     just a hint that there's more below, rather than the whole icon.
+     +25px extends the crop a touch further to show more of the photo's bottom. */
+  .hero { aspect-ratio: auto; height: calc(85svh + 25px); }
+  /* the dog sits center-frame in the photo, so center the tall mobile crop
+     (and drop the desktop zoom/shift — the tall mobile crop frames it fine).
+     translateY is resolved against the box and then re-scaled by scale() in the
+     same transform, so it compounds: at scale(1.35) anything above ~13% pushes
+     the image down further than the zoom's overflow can cover, leaving a gap
+     at the top (the background peeking through). 11% keeps a safety margin. */
+  .hero__bg img { object-position: center; transform: translateY(var(--parallax-y, 0px)) scale(1.35) translateY(11%); }
+  /* a little more air between the three stacked headline lines on mobile */
+  .hero__headline { line-height: 0.85; }
+  .m-only { display: inline; } /* force "Everyone / deserves / a dog." on mobile */
+
+  /* Stats: stack the three blocks */
+  .stats__blocks {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  /* Science: compact one-screen layout — each step is image-left / text-right
+     (like the timeline), connected by small downward arrows under the circles.
+     Keep the full top padding (matching the stats section) so the headline
+     isn't crowded against the top; only the bottom is tightened. */
+  .science { padding-top: var(--section-y); padding-bottom: clamp(44px, 9vw, 64px); }
+  .science__steps {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .step {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+    gap: 18px;
+  }
+  .step__circle { width: 84px; flex-shrink: 0; }
+  .step__label { text-align: left; }
+  .step__arrow {
+    width: 24px;
+    margin: 0 0 0 30px;   /* centered beneath the 84px circle (42 − 12) */
+    transform: rotate(90deg);
+  }
+  .science__paper { margin-top: 44px; }
+
+  /* Mobile band proportions (taller, per mobile artboard) */
+  .band { aspect-ratio: 402 / 600; }
+  /* The portrait crop recenters on each band's human subject:
+     band2 → keep the boy (left of frame) in view; footer → the woman & girl (center). */
+  .band:not(.band--tall) img { object-position: 40% center; }
+  .band--tall img { object-position: 35% center; }
+
+  /* Timeline goes vertical: dot left, text right */
+  .timeline__track { flex-direction: column; align-items: stretch; }
+  .milestone {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: 16px;
+    padding: 0 0 34px;
+  }
+  .milestone:last-child { padding-bottom: 0; }
+  .milestone__dot { width: 40px; height: 40px; font-size: 22px; }
+  .milestone:not(:last-child)::after {
+    top: 40px;
+    left: 19px;
+    width: 0;
+    height: 100%;
+    border-top: none;
+    border-left: 2px solid var(--light-brown);
+  }
+  /* dashed line reaches the top edge of the dashed circle (spans the remaining
+     milestone height + the flex gap between milestones, minus the dot) */
+  .milestone:nth-child(3)::after { border-left-style: dashed; height: calc(100% + var(--tl-gap) - 40px); }
+  .milestone__body { padding-top: 4px; align-items: flex-start; max-width: none; }
+  /* full width on mobile so labels stay on one line (e.g. "First dogs born") */
+  .milestone__label { margin-top: 0; max-width: none; }
+  .milestone__desc { max-width: none; }
+
+  /* Logo ticker: smaller marks, tighter gaps, shorter fades */
+  .news-ticker { --ticker-gap: 40px; --ticker-fade: 64px; --ticker-duration: 50s; }
+
+  /* News cards stack */
+  .news__grid { grid-template-columns: 1fr; gap: 40px; }
+  .news-card__media { aspect-ratio: 354 / 193; }
+}

@@ -1,0 +1,35 @@
+{
+  "visible": true,
+  "articles": [
+    {
+      "image": "/assets/images/news/WIRED-1.png",
+      "headline": "\"Gene-Edited Puppies Will Melt Your Heart—but Won’t Trigger Your Allergies\"",
+      "url": "https://www.wired.com/story/gene-edited-puppies-wont-trigger-allergies/"
+    },
+    {
+      "image": "/assets/images/news/AP-2.png",
+      "headline": "\"Gene-edited beagles may offer a future option for people with dog allergies\"",
+      "url": "https://apnews.com/article/hypoallergenic-dogs-crispr-pet-allergies-f5bd8cb438dfd1a9d1cccd4a1d46fd2a"
+    },
+    {
+      "image": "/assets/images/news/GEN-2.png",
+      "headline": "\"Fur Real: Biotech Startup Eliminates Major Dog Allergen in Beagle Pups Using CRISPR\"",
+      "url": "https://www.genengnews.com/topics/genome-editing/fur-real-biotech-startup-eliminates-major-dog-allergen-in-beagle-pups-using-crispr/"
+    },
+    {
+      "image": "/assets/images/news/New_Scientist.png",
+      "headline": "\"Two dogs lack the protein that causes allergies thanks to gene editing\"",
+      "url": "https://www.newscientist.com/article/2583502-two-dogs-lack-the-protein-that-causes-allergies-thanks-to-gene-editing/"
+    },
+    {
+      "image": "/assets/images/news/The_CRISPR_Journal-2.png",
+      "headline": "\"Targeted genetic knockout of Can f 1, the major allergen in dogs\"",
+      "url": "https://journals.sagepub.com/doi/10.1177/25731599261473124"
+    },
+    {
+      "image": "/assets/images/news/businesswire-2.png",
+      "headline": "Press Release",
+      "url": "https://www.businesswire.com/news/home/20260805451804/en/Kindred-Companion-Sciences-Unveils-First-Dogs-Genetically-Edited-to-Remove-the-Major-Dog-Allergen"
+    }
+  ]
+}
