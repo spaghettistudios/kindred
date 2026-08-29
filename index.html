@@ -325,6 +325,22 @@
       <div class="news__inner">
         <h2 class="section-title">Kindred <span class="accent-brown">in the news</span></h2>
         <div class="news__grid"></div>
+
+        <!-- CBS News segment. Sits inside .news__inner (a sibling of the grid,
+             which initContent() replaces wholesale) so it reveals with the
+             section and spans the full width of the three-up. No data-fade on
+             the caption: like the section heading, this content is revealed
+             after the scroll observers have already run. -->
+        <div class="news__video">
+          <iframe
+            src="https://www.cbsnews.com/video/genetically-altered-beagles-offer-hope-for-dog-lovers-with-allergies/"
+            id="cbsNewsVideo"
+            title="CBS News: Genetically altered beagles offer hope for dog lovers with allergies"
+            width="620" height="349"
+            loading="lazy"
+            allow="fullscreen" allowfullscreen frameborder="0"></iframe>
+        </div>
+        <p class="news__caption">Matt Walker, the CEO of Kindred Companion Sciences, joins CBS Mornings with his gene-altered beagle, Bailey, to discuss creating future options for people with severe pet allergies.</p>
       </div>
     </section>
 
